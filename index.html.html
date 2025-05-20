@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notas Matutino</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 20px; }
+    .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    input, button { padding: 10px; margin: 10px 0; width: 100%; box-sizing: border-box; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 8px; border: 1px solid #ccc; text-align: center; }
+    .hidden { display: none; }
+    button { background-color: #85225B; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #6a1a3d; }
+    .explicacao { margin-top: 20px; padding: 10px; background: #f1f1f1; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Acesso às Notas - Matutino</h1>
+    <p>Digite seu e-mail institucional completo para ver suas notas:</p>
+    <input type="email" id="emailInput" placeholder="exemplo@singularidades.com.br" />
+    <button onclick="verifyEmail()">Verificar</button>
+
+    <div id="notesSection" class="hidden">
+      <h2>Suas Notas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Nota site</th>
+            <th>Relatório</th>
+            <th>Relatório IA</th>
+            <th>Sorteador</th>
+            <th>Autoavaliação</th>
+            <th>Nota Final</th>
+          </tr>
+        </thead>
+        <tbody id="notesTableBody"></tbody>
+      </table>
+      <div class="explicacao">
+        <strong>Cálculo da nota final:</strong><br>
+        (Nota site × 40%) + (Relatório × 17%) + (Relatório IA × 17%) + (Sorteador × 17%) + (Autoavaliação × 10%)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const students = [{'nome': 'Adriana Pescatore Alves Pesce', 'email': 'adriana.pap20251@singularidades.com.br', 'nota_site': 70.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''},{'nome': 'Aiane Alves de Toledo', 'email': 'aiane.at20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Amanda de Paula Lima Macambya', 'email': 'amanda.plm20251@singularidades.com.br', 'nota_site': 60.0, 'relatorio': 80.0, 'relatorio_ia': 0.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Ana Sousa e Silva Cintra', 'email': 'ana.ssc20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 0.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Andressa Rafaela de Holanda Silva', 'email': 'andressa.rhs20251@singularidades.com.br', 'nota_site': 0.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Camila Gomes Mauro', 'email': 'camila.gm20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Caroline da Silva Pereira', 'email': 'caroline.sp20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 0.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Clara Kaori Okamoto', 'email': 'clara.ko20251@singularidades.com.br', 'nota_site': 50.0, 'relatorio': 100.0, 'relatorio_ia': 0.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Dara Jordan', 'email': 'dara.j20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Gabriela Mediano Silva', 'email': 'raquelmediano1@gmail.com', 'nota_site': 100.0, 'relatorio': 70.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Isadora Araujo Santos Freitas', 'email': 'isadora.asf20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 80.0, 'relatorio_ia': 70.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Julia Andrea Costa Dos Santos', 'email': 'julia.acds20251@singularidades.com.br', 'nota_site': 40.0, 'relatorio': 80.0, 'relatorio_ia': 70.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Lara Lopes de Azevedo', 'email': 'eiprof.lara@gmail.com', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 70.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Laura Ferrarezi Zanetta', 'email': 'laura.fz20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 80.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Lucca Saraiva do Amaral', 'email': 'lucca.sa20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 70.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Luciana Calvacante Scodelario', 'email': 'luciana.cs20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': '', 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Madoka Ventura Alves de Souza', 'email': 'marina.vas20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 100.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Maria Eduarda de Amorim Lira', 'email': 'maria.eal20251@singularidades.com.br', 'nota_site': 50.0, 'relatorio': 80.0, 'relatorio_ia': 100.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Marina Pereira Narciso', 'email': 'marina.pn20251@singularidades.com.br', 'nota_site': 0.0, 'relatorio': 0.0, 'relatorio_ia': 0.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Nicolle Cohen Barki', 'email': 'nicolle.b20251@singularidades.com.br', 'nota_site': 0.0, 'relatorio': 0.0, 'relatorio_ia': 0.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}, {'nome': 'Rafaela Chagas de Araújo', 'email': 'rafaela.ca20251@singularidades.com.br', 'nota_site': 100.0, 'relatorio': 0.0, 'relatorio_ia': 70.0, 'sorteador': '', 'autoavaliacao': '', 'nota_final': ''}];
+
+    function parseOrZero(val) {
+      return val ? parseFloat(val) : 0;
+    }
+
+    function verifyEmail() {
+      const email = document.getElementById("emailInput").value.trim();
+      const student = students.find(s => s.email.toLowerCase() === email.toLowerCase());
+
+      if (!student) {
+        alert("E-mail não encontrado.");
+        return;
+      }
+
+      const site = parseOrZero(student.nota_site);
+      const rel = parseOrZero(student.relatorio);
+      const relIA = parseOrZero(student.relatorio_ia);
+      const sort = parseOrZero(student.sorteador);
+      const auto = parseOrZero(student.autoavaliacao);
+
+      const final = (site * 0.4 + rel * 0.17 + relIA * 0.17 + sort * 0.17 + auto * 0.1).toFixed(1);
+
+      const table = document.getElementById("notesTableBody");
+      table.innerHTML = `
+        <tr>
+          <td>${student.nome}</td>
+          <td>${site}</td>
+          <td>${rel}</td>
+          <td>${relIA}</td>
+          <td>${sort}</td>
+          <td>${auto}</td>
+          <td><strong>${final}</strong></td>
+        </tr>
+      `;
+      document.getElementById("notesSection").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
